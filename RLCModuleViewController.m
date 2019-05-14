@@ -21,10 +21,14 @@
             __weak id weakSelf = self;
             __weak id weakPrefs = self.preferences;
             for (NSDictionary *favorite in favorites) {
-                [self addActionWithTitle:favorite[@"Name"] glyph:nil handler:^() {
+                [self addActionWithTitle:favorite[@"Name"] glyph:((
+                    [self.preferences objectForKey:@"SelectedFavorite"]
+                    && [favorite[@"Name"] isEqualToString:[self.preferences objectForKey:@"SelectedFavorite"]]
+                ) ? [self checkmarkGlyph] : [UIImage new]) handler:^() {
                     [weakSelf setSelected:YES];
                     [weakPrefs setBool:YES forKey:@"Enabled"];
                     [weakPrefs setBool:YES forKey:@"GlobalEnabled"];
+                    [weakPrefs setObject:favorite[@"Name"] forKey:@"SelectedFavorite"];
 
                     NSMutableDictionary* globalLocation = [([weakPrefs objectForKey:@"GlobalLocation"] ?: @{}) mutableCopy];
                     globalLocation[@"Coordinate"] = @{
@@ -39,6 +43,10 @@
     }];
 
     return self;
+}
+
+- (UIImage *)checkmarkGlyph {
+    return [UIImage imageNamed:@"Checkmark" inBundle:[NSBundle bundleForClass:[self class]]];
 }
 
 -(void)viewDidLayoutSubviews {

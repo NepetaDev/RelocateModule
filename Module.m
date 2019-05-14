@@ -1,9 +1,5 @@
 #import "Module.h"
 
-@interface UIImage ()
-+ (UIImage *)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle;
-@end
-
 @implementation RLCToggleModule
 
 -(id)init {
