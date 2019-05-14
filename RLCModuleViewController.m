@@ -24,6 +24,7 @@
                 [self addActionWithTitle:favorite[@"Name"] glyph:nil handler:^() {
                     [weakSelf setSelected:YES];
                     [weakPrefs setBool:YES forKey:@"Enabled"];
+                    [weakPrefs setBool:YES forKey:@"GlobalEnabled"];
 
                     NSMutableDictionary* globalLocation = [([weakPrefs objectForKey:@"GlobalLocation"] ?: @{}) mutableCopy];
                     globalLocation[@"Coordinate"] = @{
